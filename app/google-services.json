@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "594434921164",
+    "firebase_url": "https://bunk-o-meter-275715.firebaseio.com",
+    "project_id": "bunk-o-meter-275715",
+    "storage_bucket": "bunk-o-meter-275715.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594434921164:android:cc7311092f93e67a6f6869",
+        "android_client_info": {
+          "package_name": "com.example.bunk_o_meter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "594434921164-becfa89l5llq8npik81gj9h2pj8rt2ll.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDizJiy5h59ADUCAWLemaLwfmAMvkR7Q60"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "594434921164-becfa89l5llq8npik81gj9h2pj8rt2ll.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

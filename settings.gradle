@@ -1,0 +1,2 @@
+rootProject.name='Bunk-O-Meter'
+include ':app'

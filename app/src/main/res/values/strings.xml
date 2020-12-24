@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Bunk-O-Meter</string>
+    <string name="appbar_scrolling_view_behavior" />
+    <string name="add_lecture_hall_location">Add Lecture Hall Location</string>
+    <string name="add_acadmic_calender">Add Acadmic Calender</string>
+    <string name="home">Home</string>
+    <string name="open_Drawers">Open Drawers</string>
+    <string name="close_Drawers">Close Drawers</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="enter_location">Enter Location</string>
+    <string name="location_data" />
+    <string name="add_time_table">Add Time Table</string>
+    <string name="name">name</string>
+    <string name="size">Size</string>
+    <string name="PDFdata" />
+    <string name="no_file_added">No File Added</string>
+
+
+</resources>
