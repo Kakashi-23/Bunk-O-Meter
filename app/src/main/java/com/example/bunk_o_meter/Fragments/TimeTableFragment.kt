@@ -1,4 +1,4 @@
-package Fragments
+package com.example.bunk_o_meter.Fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.bunk_o_meter.R
 
-
-class HomeFragment : Fragment() {
-
+class TimeTableFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +18,8 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val view =inflater.inflate(R.layout.fragment_add_time_table, container, false)
+        return view
     }
 
 }

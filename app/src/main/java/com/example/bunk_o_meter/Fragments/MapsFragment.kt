@@ -1,18 +1,14 @@
-package Fragments
+package com.example.bunk_o_meter.Fragments
 
-import android.app.Activity
-import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
-import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.view.DragEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +34,6 @@ import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import kotlinx.android.synthetic.main.fragment_maps.*
-import java.io.IOException
 
 open class MapsFragment : Fragment(),OnMapReadyCallback, GoogleMap.OnMarkerDragListener {
     lateinit var googleMap: GoogleMap
