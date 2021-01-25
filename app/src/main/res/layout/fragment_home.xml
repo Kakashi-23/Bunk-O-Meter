@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="Fragments.HomeFragment">
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/subjectLayout"
+        android:id="@+id/subjectAttendanceRecycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -16,16 +16,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/timeTableRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/subjectLayout"
-        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
