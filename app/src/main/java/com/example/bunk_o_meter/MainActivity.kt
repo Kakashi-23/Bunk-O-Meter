@@ -1,6 +1,6 @@
 package com.example.bunk_o_meter
 
-import Fragments.AddTimeTable
+
 import Fragments.MapsFragment
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -57,13 +57,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.menuTimeTable->{
 
-                    val manager=supportFragmentManager
-                    val transaction=manager.beginTransaction()
-                    val fragment=AddTimeTable()
-                    transaction.replace(R.id.mainFrameLayout,fragment)
-                    transaction.commit()
-                    toolbar.title="Time table"
-                    drawerLayout.closeDrawers()
                 }
                 R.id.menucalender->{}
 
