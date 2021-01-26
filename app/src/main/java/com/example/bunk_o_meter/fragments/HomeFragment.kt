@@ -1,4 +1,4 @@
-package com.example.bunk_o_meter.Fragments
+package com.example.bunk_o_meter.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

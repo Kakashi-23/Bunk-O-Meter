@@ -1,4 +1,4 @@
-package com.example.bunk_o_meter.Database
+package com.example.bunk_o_meter.database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

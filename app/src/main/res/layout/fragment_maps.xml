@@ -5,7 +5,7 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.bunk_o_meter.Fragments.MapsFragment" >
+    tools:context="com.example.bunk_o_meter.fragments.MapsFragment" >
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"

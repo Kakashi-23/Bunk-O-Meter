@@ -1,7 +1,7 @@
 package com.example.bunk_o_meter
 
 
-import com.example.bunk_o_meter.Fragments.MapsFragment
+import com.example.bunk_o_meter.fragments.MapsFragment
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem

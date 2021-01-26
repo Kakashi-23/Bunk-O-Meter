@@ -1,4 +1,4 @@
-package com.example.bunk_o_meter.Fragments
+package com.example.bunk_o_meter.fragments
 
 import android.content.Context
 import android.content.Intent
