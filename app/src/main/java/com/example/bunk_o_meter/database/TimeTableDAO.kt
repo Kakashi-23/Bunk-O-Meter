@@ -21,6 +21,6 @@ interface TimeTableDAO {
     fun deleteAll()
 
     @Query("SELECT * FROM Time_Table")
-    fun getAllInfo():LiveData<TimeTableEntity>
+    fun getAllInfo():LiveData<List<TimeTableEntity>>
 
 }

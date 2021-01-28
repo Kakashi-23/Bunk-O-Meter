@@ -53,11 +53,6 @@
                     android:inputType="time"
                     />
             </com.google.android.material.textfield.TextInputLayout>
-
-
-
         </LinearLayout>
-
-
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,8 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.example.bunk_o_meter.fragments.HomeFragment
+import com.example.bunk_o_meter.fragments.TimeTableFragment
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -42,7 +44,11 @@ class MainActivity : AppCompatActivity() {
             previousMenuItem=it
             when(it.itemId) {
                 R.id.menuHome->{
-
+                    val manager=supportFragmentManager
+                    val transaction=manager.beginTransaction()
+                    val fragment=HomeFragment()
+                    transaction.replace(R.id.mainFrameLayout,fragment)
+                    transaction.commit()
                     drawerLayout.closeDrawers()
                 }
                 R.id.menuLHL->{
@@ -55,6 +61,12 @@ class MainActivity : AppCompatActivity() {
                     drawerLayout.closeDrawers()
                 }
                 R.id.menuTimeTable->{
+                    val manager =supportFragmentManager
+                    val transaction=manager.beginTransaction()
+                    val fragment=TimeTableFragment()
+                    transaction.replace(R.id.mainFrameLayout,fragment)
+                    transaction.commit()
+                    drawerLayout.closeDrawers()
 
                 }
                 R.id.menucalender->{}

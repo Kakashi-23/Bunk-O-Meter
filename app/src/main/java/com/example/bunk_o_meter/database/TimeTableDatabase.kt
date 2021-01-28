@@ -1,11 +1,14 @@
 package com.example.bunk_o_meter.database
 
 import android.content.Context
+import android.os.AsyncTask
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.RoomDatabase.Callback
+import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [TimeTableEntity::class],version = 1)
+@Database(entities = [TimeTableEntity::class],version = 4,exportSchema = false)
 abstract class TimeTableDatabase:RoomDatabase() {
     abstract fun timeTableDao():TimeTableDAO
     companion object{
@@ -32,4 +35,6 @@ abstract class TimeTableDatabase:RoomDatabase() {
            }
       }
     }
+
+
 }

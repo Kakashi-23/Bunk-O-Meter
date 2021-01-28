@@ -23,7 +23,7 @@ class TimeTableRepository(application: Application) {
     fun deleteAll(entity: TimeTableEntity){
         ScheduleAsyncTask(scheduleDao,Constants.DeleteAll).execute(entity)
     }
-    fun getAllInfo():LiveData<TimeTableEntity>{
+    fun getAllInfo(): LiveData<List<TimeTableEntity>> {
         return scheduleDao.getAllInfo()
     }
     fun getSubject(day: String,time: String):LiveData<TimeTableEntity>{

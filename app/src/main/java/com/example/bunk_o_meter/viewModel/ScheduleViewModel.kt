@@ -25,7 +25,7 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
     public fun getSubject(day: String,time: String){
         scheduleRepository.getSubject(day,time)
     }
-    fun getAllSchedule():LiveData<TimeTableEntity>{
+    fun getAllSchedule(): LiveData<List<TimeTableEntity>> {
         return fullSchedule
     }
 }
