@@ -18,7 +18,7 @@ import com.google.android.material.textfield.TextInputEditText
     lateinit var subjectName:TextInputEditText
     lateinit var dayAndTimeAdapter: DayAndTimeAdapter
     lateinit var fab:FloatingActionButton
-    private val dayList= arrayListOf<String>()
+    private val dayList= arrayListOf<String>("1")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,21 +35,19 @@ import com.google.android.material.textfield.TextInputEditText
             adapter= ScheduleAdapter((it as ArrayList<TimeTableEntity>?)!!)
             subject.adapter=adapter
         })*/
-        dayList.add("Monday")
-        dayList.add("Tuesday")
-        dayList.add("Wednesday")
-        dayList.add("Thursday")
-        dayList.add("Friday")
         subjectName=view.findViewById(R.id.subjectNameAdd)
         dayAndTimeRecycler=view.findViewById(R.id.addRecycler)
         fab=view.findViewById(R.id.fabAdd)
         displaySchedule()
+        fab.setOnClickListener {
+            dayList.add("")
+            dayAndTimeAdapter.notifyDataSetChanged()
+        }
         return view
     }
 
     private fun displaySchedule() {
-        dayAndTimeRecycler.layoutManager=LinearLayoutManager(activity,
-        LinearLayoutManager.VERTICAL,false)
+        dayAndTimeRecycler.layoutManager=LinearLayoutManager(activity, LinearLayoutManager.VERTICAL,false)
         dayAndTimeAdapter=DayAndTimeAdapter(dayList,requireContext())
         dayAndTimeRecycler.adapter=dayAndTimeAdapter
     }

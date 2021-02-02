@@ -12,7 +12,7 @@ import com.example.bunk_o_meter.R
 import com.google.android.material.textfield.TextInputEditText
 import java.lang.ref.WeakReference
 
-class DayAndTimeAdapter(private val dayList:ArrayList<String>,val context:Context): RecyclerView.Adapter<DayAndTimeAdapter.DayViewHolder>() {
+class DayAndTimeAdapter(private val dayList:ArrayList<String>, private val context:Context): RecyclerView.Adapter<DayAndTimeAdapter.DayViewHolder>() {
 
     class DayViewHolder(view:View):RecyclerView.ViewHolder(view) {
          var daySpinner: Spinner=view.findViewById(R.id.daySpinner)
@@ -29,13 +29,17 @@ class DayAndTimeAdapter(private val dayList:ArrayList<String>,val context:Contex
     }
 
     override fun onBindViewHolder(holder: DayViewHolder, position: Int) {
-        //TODO(Holder list)
+        setSpinnerAdapter(holder)
     }
 
     override fun getItemCount(): Int {
        return dayList.size
     }
-    fun setSpinnerAdapter():ArrayAdapter<String>{
-        TODO("Set spinner")
+    private fun setSpinnerAdapter(holder:DayViewHolder){
+        val arrayAdapter=ArrayAdapter.createFromResource(WeakReference(context).get()!!,
+            R.array.Days,
+            android.R.layout.simple_spinner_item)
+       arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        holder.daySpinner.adapter=arrayAdapter
     }
 }
