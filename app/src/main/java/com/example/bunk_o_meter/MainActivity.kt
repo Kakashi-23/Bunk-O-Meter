@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
+import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.bunk_o_meter.fragments.HomeFragment
 import com.example.bunk_o_meter.fragments.TimeTableFragment
@@ -29,7 +30,8 @@ class MainActivity : AppCompatActivity() {
         navigationView=findViewById(R.id.mainNavigationView)
         frameLayout=findViewById(R.id.mainFrameLayout)
         drawerLayout=findViewById(R.id.mainDrawerLayout)
-        ToolBar()
+        toolBar("Home")
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         // navigation bar setup
         val actionBarDrawerToggle=ActionBarDrawerToggle(this,drawerLayout,R.string.open_Drawers,R.string.close_Drawers)
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
@@ -66,6 +68,11 @@ class MainActivity : AppCompatActivity() {
                     val fragment=TimeTableFragment()
                     transaction.replace(R.id.mainFrameLayout,fragment)
                     transaction.commit()
+                    if (toolbar.visibility == View.GONE){
+                        toolbar.visibility=View.VISIBLE
+                        toolBar("Add TimeTable")
+                    }
+                    toolBar("Add TimeTable")
                     drawerLayout.closeDrawers()
 
                 }
@@ -82,10 +89,10 @@ class MainActivity : AppCompatActivity() {
 
 
 // toolbar setup
-    fun ToolBar(){
+    private fun toolBar(title:String){
         setSupportActionBar(toolbar)
-    supportActionBar?.title="home"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title=title
+
     }
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val id = item?.itemId

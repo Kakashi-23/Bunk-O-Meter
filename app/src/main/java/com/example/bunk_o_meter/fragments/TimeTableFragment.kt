@@ -1,18 +1,20 @@
  package com.example.bunk_o_meter.fragments
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bunk_o_meter.R
 import com.example.bunk_o_meter.adapters.DayAndTimeAdapter
+import com.example.bunk_o_meter.utils.CommonUtilities
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
+import com.michaldrabik.classicmaterialtimepicker.CmtpTimeDialogFragment
+import com.michaldrabik.classicmaterialtimepicker.model.CmtpTime24
+import com.michaldrabik.classicmaterialtimepicker.utilities.setOnTime24PickedListener
 
- class TimeTableFragment : Fragment() {
+ class TimeTableFragment : Fragment(){
 
     lateinit var dayAndTimeRecycler: RecyclerView
     lateinit var subjectName:TextInputEditText
@@ -35,6 +37,7 @@ import com.google.android.material.textfield.TextInputEditText
             adapter= ScheduleAdapter((it as ArrayList<TimeTableEntity>?)!!)
             subject.adapter=adapter
         })*/
+        setHasOptionsMenu(true)
         subjectName=view.findViewById(R.id.subjectNameAdd)
         dayAndTimeRecycler=view.findViewById(R.id.addRecycler)
         fab=view.findViewById(R.id.fabAdd)
@@ -52,4 +55,25 @@ import com.google.android.material.textfield.TextInputEditText
         dayAndTimeRecycler.adapter=dayAndTimeAdapter
     }
 
-}
+     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+         inflater.inflate(R.menu.save_menu,menu)
+         super.onCreateOptionsMenu(menu, inflater)
+     }
+
+     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+         if (item.itemId == R.id.save_data){
+             CommonUtilities.showToast(requireContext(),"Saved")
+         }
+         return super.onOptionsItemSelected(item)
+     }
+
+     override fun onStop() {
+         dayList.clear()
+         super.onStop()
+     }
+
+     override fun onDestroy() {
+         dayList.clear()
+         super.onDestroy()
+     }
+ }
