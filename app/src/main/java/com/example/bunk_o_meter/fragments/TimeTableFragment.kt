@@ -1,13 +1,19 @@
  package com.example.bunk_o_meter.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.widget.Spinner
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bunk_o_meter.R
+import com.example.bunk_o_meter.TimeTableRepository
 import com.example.bunk_o_meter.adapters.DayAndTimeAdapter
+import com.example.bunk_o_meter.database.TimeTableEntity
 import com.example.bunk_o_meter.utils.CommonUtilities
+import com.example.bunk_o_meter.viewModel.ScheduleViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.michaldrabik.classicmaterialtimepicker.CmtpTimeDialogFragment
@@ -15,7 +21,7 @@ import com.michaldrabik.classicmaterialtimepicker.model.CmtpTime24
 import com.michaldrabik.classicmaterialtimepicker.utilities.setOnTime24PickedListener
 
  class TimeTableFragment : Fragment(){
-
+     private  val TAG = "TimeTableFragment"
     lateinit var dayAndTimeRecycler: RecyclerView
     lateinit var subjectName:TextInputEditText
     lateinit var dayAndTimeAdapter: DayAndTimeAdapter
@@ -30,27 +36,23 @@ import com.michaldrabik.classicmaterialtimepicker.utilities.setOnTime24PickedLis
         val view =inflater.inflate(R.layout.fragment_add_time_table,
             container,
             false)
-       /* subject=view.findViewById(R.id.subjectLayout)
-        scheduleViewModel=ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
-        scheduleViewModel.getAllSchedule().observe(viewLifecycleOwner, Observer {
-            subject.layoutManager=LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
-            adapter= ScheduleAdapter((it as ArrayList<TimeTableEntity>?)!!)
-            subject.adapter=adapter
-        })*/
-        setHasOptionsMenu(true)
         subjectName=view.findViewById(R.id.subjectNameAdd)
         dayAndTimeRecycler=view.findViewById(R.id.addRecycler)
         fab=view.findViewById(R.id.fabAdd)
-        displaySchedule()
+        setHasOptionsMenu(true)
         fab.setOnClickListener {
             dayList.add("")
             dayAndTimeAdapter.notifyDataSetChanged()
         }
+
+        displaySchedule()
+
         return view
     }
 
     private fun displaySchedule() {
-        dayAndTimeRecycler.layoutManager=LinearLayoutManager(activity, LinearLayoutManager.VERTICAL,false)
+        dayAndTimeRecycler.layoutManager=LinearLayoutManager(activity,
+            LinearLayoutManager.VERTICAL,false)
         dayAndTimeAdapter=DayAndTimeAdapter(dayList,requireContext())
         dayAndTimeRecycler.adapter=dayAndTimeAdapter
     }
@@ -62,15 +64,39 @@ import com.michaldrabik.classicmaterialtimepicker.utilities.setOnTime24PickedLis
 
      override fun onOptionsItemSelected(item: MenuItem): Boolean {
          if (item.itemId == R.id.save_data){
-             CommonUtilities.showToast(requireContext(),"Saved")
+             saveData(subjectName.text.toString())
          }
          return super.onOptionsItemSelected(item)
      }
 
-     override fun onStop() {
-         dayList.clear()
-         super.onStop()
+     private fun saveData(subjectName:String) {
+         for (i in 0 until dayList.size){
+             val view=dayAndTimeRecycler.findViewHolderForAdapterPosition(i)!!.itemView
+             var daySpinner: Spinner =view.findViewById(R.id.daySpinner)
+             var startTime:TextInputEditText=view.findViewById(R.id.startTime)
+             var endTime:TextInputEditText=view.findViewById(R.id.endTime)
+             pushDataToDB(daySpinner.selectedItem!!.toString(),
+             startTime!!.text.toString(),
+                 endTime!!.text.toString(),
+             subjectName)
+         }
+
      }
+
+     private fun pushDataToDB(day:String,startTime:String,endTime:String,subjectName: String) {
+         val timeTableEntity=TimeTableEntity(day,subjectName,startTime,endTime)
+         val viewModel=ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
+         if (viewModel.isExists(timeTableEntity)){
+             CommonUtilities.showToast(requireContext(),"Data already Exists")
+             return
+         }
+         val status=viewModel.insert(timeTableEntity)
+         if (status){
+             CommonUtilities.showToast(requireContext(),"Saved")
+         }
+     }
+
+
 
      override fun onDestroy() {
          dayList.clear()

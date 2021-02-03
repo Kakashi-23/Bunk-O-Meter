@@ -6,8 +6,6 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "Time_Table")
 data class TimeTableEntity(
-    @PrimaryKey
-    val id:Int,
     @ColumnInfo(name = "Day")
     val day:String,
     @ColumnInfo(name = "Subject")
@@ -17,4 +15,7 @@ data class TimeTableEntity(
     @ColumnInfo(name = "End_Time")
     val EndTime:String
 
-)
+){
+    @PrimaryKey(autoGenerate = true)
+    var id:Int=0
+}

@@ -1,14 +1,19 @@
 package com.example.bunk_o_meter.adapters
 
 import android.content.Context
+import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bunk_o_meter.R
+import com.example.bunk_o_meter.model.SubjectInfo
 import com.google.android.material.textfield.TextInputEditText
 import com.michaldrabik.classicmaterialtimepicker.CmtpTimeDialogFragment
 import com.michaldrabik.classicmaterialtimepicker.model.CmtpTime24
@@ -18,10 +23,11 @@ import kotlin.math.E
 
 
 class DayAndTimeAdapter(private val dayList:ArrayList<String>,
-                        private val context:Context): RecyclerView.Adapter<DayAndTimeAdapter.DayViewHolder>() {
-
+                        private val context:Context): RecyclerView.Adapter<DayAndTimeAdapter.DayViewHolder>(){
+    private  val TAG = "DayAndTimeAdapter"
 private val StartTime=1
     private val EndTime=2
+    val spinnerMap=HashMap<Int,Int>()
     class DayViewHolder(view:View):RecyclerView.ViewHolder(view) {
          var daySpinner: Spinner=view.findViewById(R.id.daySpinner)
          var startTime:TextInputEditText=view.findViewById(R.id.startTime)
@@ -32,28 +38,44 @@ private val StartTime=1
         val view = LayoutInflater
             .from(parent.context)
             .inflate(R.layout.time_table_layout, parent,false)
-
         return DayViewHolder(view)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(holder: DayViewHolder, position: Int) {
-        setSpinnerAdapter(holder)
+      if (spinnerMap.contains(position)){
+          spinnerMap[position]?.let { holder.daySpinner.setSelection(it) }
+      }
+        setSpinnerAdapter(holder,position)
        holder.startTime.setOnClickListener {  setTimePicker(holder,StartTime) }
         holder.endTime.setOnClickListener {setTimePicker(holder,EndTime)}
     }
 
+
     override fun getItemCount(): Int {
        return dayList.size
     }
-    private fun setSpinnerAdapter(holder:DayViewHolder){
+
+    private fun setSpinnerAdapter(holder:DayViewHolder,position: Int){
         val arrayAdapter=ArrayAdapter.createFromResource(WeakReference(context).get()!!,
             R.array.Days,
             android.R.layout.simple_spinner_item)
        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         holder.daySpinner.adapter=arrayAdapter
+        holder.daySpinner.onItemSelectedListener=object : AdapterView.OnItemSelectedListener{
+            @RequiresApi(Build.VERSION_CODES.N)
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                spinnerMap[position] = p2
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+        }
     }
 
-    private fun setTimePicker(holder:DayViewHolder,type:Int) {
+    private fun setTimePicker(holder:DayViewHolder, type:Int) {
         val timePicker = CmtpTimeDialogFragment.newInstance()
         timePicker.setInitialTime24(13, 0)
        val manager= (context as AppCompatActivity).supportFragmentManager
@@ -65,7 +87,5 @@ private val StartTime=1
                 holder.endTime.setText(it.toString())
             }
         }
-
-
     }
 }

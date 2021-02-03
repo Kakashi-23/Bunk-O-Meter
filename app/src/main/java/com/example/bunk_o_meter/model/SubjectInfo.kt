@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo
 import com.google.gson.annotations.SerializedName
 
 data class SubjectInfo(
-    val day:String,
-    val Subject:String,
-    val StartTime:String,
-    val EndTime:String
+    var day:String?,
+    var Subject:String?,
+    var StartTime:String?,
+    var EndTime:String?
 )

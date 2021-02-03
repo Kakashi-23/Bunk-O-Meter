@@ -10,22 +10,25 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
     private var scheduleRepository=TimeTableRepository(application)
     private var fullSchedule=scheduleRepository.getAllInfo()
 
-    public fun insert(entity:TimeTableEntity){
-        scheduleRepository.insert(entity)
+    public fun insert(entity:TimeTableEntity): Boolean {
+      return scheduleRepository.insert(entity)
     }
-    public fun delete(entity:TimeTableEntity){
-        scheduleRepository.delete(entity)
+    public fun delete(entity:TimeTableEntity): Boolean {
+        return scheduleRepository.delete(entity)
     }
-    public fun update(entity:TimeTableEntity){
-        scheduleRepository.update(entity)
+    public fun update(entity:TimeTableEntity): Boolean {
+        return  scheduleRepository.update(entity)
     }
-    public fun deleteAll(entity:TimeTableEntity){
-        scheduleRepository.deleteAll(entity)
+    public fun deleteAll(entity:TimeTableEntity): Boolean {
+        return  scheduleRepository.deleteAll(entity)
     }
-    public fun getSubject(day: String,time: String){
-        scheduleRepository.getSubject(day,time)
+    public fun getSubject(day: String,time: String): TimeTableEntity? {
+       return scheduleRepository.getSubject(day,time)
     }
     fun getAllSchedule(): LiveData<List<TimeTableEntity>> {
         return fullSchedule
+    }
+    fun isExists(entity: TimeTableEntity):Boolean{
+        return scheduleRepository.isExists(entity)
     }
 }

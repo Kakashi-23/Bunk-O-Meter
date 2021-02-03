@@ -9,7 +9,7 @@ interface TimeTableDAO {
     fun insertTimeTable(timeTable:TimeTableEntity)
 
     @Query("SELECT * FROM Time_Table WHERE Day = :currentDay and Start_Time = :currentTime")
-    fun getSubject(currentDay:String, currentTime: String): LiveData<TimeTableEntity>
+    fun getSubject(currentDay:String, currentTime: String): TimeTableEntity
 
     @Delete
     fun deleteTimeTable(timeTable: TimeTableEntity)

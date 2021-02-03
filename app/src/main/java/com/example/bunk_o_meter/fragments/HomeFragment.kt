@@ -30,11 +30,11 @@ lateinit var database: TimeTableDatabase
         button=view.findViewById(R.id.button)
         database= TimeTableDatabase.getDatabase(requireActivity())
         button.setOnClickListener {
-            PopulateDbAsyncTask(database).execute()
+           // PopulateDbAsyncTask(database).execute()
         }
         return view
     }
-    class PopulateDbAsyncTask(db:TimeTableDatabase): AsyncTask<Void, Void, Void>() {
+  /*  class PopulateDbAsyncTask(db:TimeTableDatabase): AsyncTask<Void, Void, Void>() {
         val dao=db.timeTableDao()
         override fun doInBackground(vararg params: Void?): Void? {
             dao.insertTimeTable(
@@ -48,6 +48,6 @@ lateinit var database: TimeTableDatabase
             return null
         }
 
-    }
+    }*/
 
 }
