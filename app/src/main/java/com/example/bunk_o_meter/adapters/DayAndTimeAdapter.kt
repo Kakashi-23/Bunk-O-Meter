@@ -24,10 +24,9 @@ import kotlin.math.E
 
 class DayAndTimeAdapter(private val dayList:ArrayList<String>,
                         private val context:Context): RecyclerView.Adapter<DayAndTimeAdapter.DayViewHolder>(){
-    private  val TAG = "DayAndTimeAdapter"
-private val StartTime=1
+    private val StartTime=1
     private val EndTime=2
-    val spinnerMap=HashMap<Int,Int>()
+    val spinnerMap=HashMap<Long,Int>()
     class DayViewHolder(view:View):RecyclerView.ViewHolder(view) {
          var daySpinner: Spinner=view.findViewById(R.id.daySpinner)
          var startTime:TextInputEditText=view.findViewById(R.id.startTime)
@@ -43,8 +42,8 @@ private val StartTime=1
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(holder: DayViewHolder, position: Int) {
-      if (spinnerMap.contains(position)){
-          spinnerMap[position]?.let { holder.daySpinner.setSelection(it) }
+      if (spinnerMap.contains(getItemId(position))){
+          holder.daySpinner.setSelection(spinnerMap[getItemId(position)]!!)
       }
         setSpinnerAdapter(holder,position)
        holder.startTime.setOnClickListener {  setTimePicker(holder,StartTime) }
@@ -65,7 +64,7 @@ private val StartTime=1
         holder.daySpinner.onItemSelectedListener=object : AdapterView.OnItemSelectedListener{
             @RequiresApi(Build.VERSION_CODES.N)
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                spinnerMap[position] = p2
+                spinnerMap[getItemId(position)] = p2
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {

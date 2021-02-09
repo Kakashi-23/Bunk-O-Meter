@@ -6,6 +6,7 @@ import android.view.*
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bunk_o_meter.R
@@ -47,6 +48,23 @@ import com.michaldrabik.classicmaterialtimepicker.utilities.setOnTime24PickedLis
 
         displaySchedule()
 
+        // swipe to delete functionality
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                dayList.removeAt(viewHolder.adapterPosition)
+                dayAndTimeAdapter.notifyDataSetChanged()
+            }
+
+        }).attachToRecyclerView(dayAndTimeRecycler)
+
         return view
     }
 
@@ -64,21 +82,30 @@ import com.michaldrabik.classicmaterialtimepicker.utilities.setOnTime24PickedLis
 
      override fun onOptionsItemSelected(item: MenuItem): Boolean {
          if (item.itemId == R.id.save_data){
-             saveData(subjectName.text.toString())
+             if(subjectName.text.isNullOrEmpty()){
+                 subjectName.error="Please enter the subject"
+             }else{
+                 saveData(subjectName.text!!.toString())
+             }
          }
          return super.onOptionsItemSelected(item)
      }
 
      private fun saveData(subjectName:String) {
-         for (i in 0 until dayList.size){
-             val view=dayAndTimeRecycler.findViewHolderForAdapterPosition(i)!!.itemView
-             var daySpinner: Spinner =view.findViewById(R.id.daySpinner)
-             var startTime:TextInputEditText=view.findViewById(R.id.startTime)
-             var endTime:TextInputEditText=view.findViewById(R.id.endTime)
-             pushDataToDB(daySpinner.selectedItem!!.toString(),
-             startTime!!.text.toString(),
-                 endTime!!.text.toString(),
-             subjectName)
+         if (dayList.size!=0) {
+             for (i in 0 until dayList.size) {
+                 val view = dayAndTimeRecycler.findViewHolderForAdapterPosition(i)!!.itemView
+                 val daySpinner: Spinner= view.findViewById(R.id.daySpinner)
+                 val startTime: TextInputEditText = view.findViewById(R.id.startTime)
+                 val endTime: TextInputEditText = view.findViewById(R.id.endTime)
+                 pushDataToDB(daySpinner.selectedItem.toString(),
+                     startTime.text!!.toString(),
+                     endTime.text!!.toString(),
+                     subjectName
+                 )
+             }
+         }else {
+             CommonUtilities.showToast(requireActivity(),"Enter Schedule")
          }
 
      }
