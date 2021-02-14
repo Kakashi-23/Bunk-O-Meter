@@ -5,12 +5,15 @@ import android.util.Log
 import android.view.*
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bunk_o_meter.R
+import com.example.bunk_o_meter.R.drawable.error_layout
 import com.example.bunk_o_meter.TimeTableRepository
 import com.example.bunk_o_meter.adapters.DayAndTimeAdapter
 import com.example.bunk_o_meter.database.TimeTableEntity
@@ -99,11 +102,25 @@ import com.michaldrabik.classicmaterialtimepicker.utilities.setOnTime24PickedLis
                  val day:TextView= view.findViewById(R.id.dayShow)
                  val startTime: TextInputEditText = view.findViewById(R.id.startTime)
                  val endTime: TextInputEditText = view.findViewById(R.id.endTime)
-                 pushDataToDB(day.text.toString(),
-                     startTime.text!!.toString(),
-                     endTime.text!!.toString(),
-                     subjectName
-                 )
+                 if (!day.text.isNullOrBlank() || !day.text.isNullOrEmpty()){
+                     if (!startTime.text.isNullOrEmpty() || !startTime.text.isNullOrBlank()){
+                         if (!endTime.text.isNullOrEmpty() || !endTime.text.isNullOrBlank()){
+                             pushDataToDB(day.text.toString(),
+                             startTime.text!!.toString(),
+                             endTime.text!!.toString(),
+                             subjectName,
+                             i
+                             )
+                         }else {
+                             endTime.error = "Enter Time"
+                         }
+                     }else{
+                         startTime.error="Enter Time"
+                     }
+                 }else{
+                     day.error = "Enter Day"
+                 }
+
              }
          }else {
              CommonUtilities.showToast(requireActivity(),"Enter Schedule")
@@ -111,11 +128,14 @@ import com.michaldrabik.classicmaterialtimepicker.utilities.setOnTime24PickedLis
 
      }
 
-     private fun pushDataToDB(day:String,startTime:String,endTime:String,subjectName: String) {
+     private fun pushDataToDB(day:String,startTime:String,endTime:String,subjectName: String,i:Int) {
          val timeTableEntity=TimeTableEntity(day,subjectName,startTime,endTime)
          val viewModel=ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
          if (viewModel.isExists(timeTableEntity)){
              CommonUtilities.showToast(requireContext(),"Data already Exists")
+             dayAndTimeRecycler.findViewHolderForAdapterPosition(i)!!.itemView.
+                 findViewById<ConstraintLayout>(R.id.scheduleLayout).
+                 setBackgroundResource(error_layout)
              return
          }
          val status=viewModel.insert(timeTableEntity)
