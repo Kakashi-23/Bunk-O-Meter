@@ -17,13 +17,7 @@
     <string name="size">Size</string>
     <string name="PDFdata" />
     <string name="no_file_added">No File Added</string>
-    <string-array name="Days">
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
-    </string-array>
+
 
 
 

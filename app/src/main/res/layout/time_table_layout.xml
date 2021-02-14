@@ -15,13 +15,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <Spinner
-            android:id="@+id/daySpinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1.2" />
+<com.google.android.material.textfield.TextInputLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1.2"
+    android:layout_gravity="center_vertical">
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/dayShow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="Day"
+        android:textAlignment="viewStart"
+        android:focusable="false"
+        android:cursorVisible="false"
+        android:textSize="15sp"
+        android:layout_marginStart="5dp"
+        />
+</com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="0dp"

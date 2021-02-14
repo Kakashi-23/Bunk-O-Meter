@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Spinner
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -84,7 +85,7 @@ import com.michaldrabik.classicmaterialtimepicker.utilities.setOnTime24PickedLis
          if (item.itemId == R.id.save_data){
              if(subjectName.text.isNullOrEmpty()){
                  subjectName.error="Please enter the subject"
-             }else{
+             } else{
                  saveData(subjectName.text!!.toString())
              }
          }
@@ -95,10 +96,10 @@ import com.michaldrabik.classicmaterialtimepicker.utilities.setOnTime24PickedLis
          if (dayList.size!=0) {
              for (i in 0 until dayList.size) {
                  val view = dayAndTimeRecycler.findViewHolderForAdapterPosition(i)!!.itemView
-                 val daySpinner: Spinner= view.findViewById(R.id.daySpinner)
+                 val day:TextView= view.findViewById(R.id.dayShow)
                  val startTime: TextInputEditText = view.findViewById(R.id.startTime)
                  val endTime: TextInputEditText = view.findViewById(R.id.endTime)
-                 pushDataToDB(daySpinner.selectedItem.toString(),
+                 pushDataToDB(day.text.toString(),
                      startTime.text!!.toString(),
                      endTime.text!!.toString(),
                      subjectName

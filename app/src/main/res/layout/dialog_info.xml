@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/headerText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Day"
+        android:textColor="@color/white"
+        android:padding="5dp"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:background="@color/slate_blue"
+        />
+    <ListView
+        android:id="@+id/infoList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:listSelector="@color/dark_slate_gray"
+        android:layout_marginTop="5dp"
+        tools:listitem="@layout/spinner_info_view"/>
+
+</LinearLayout>

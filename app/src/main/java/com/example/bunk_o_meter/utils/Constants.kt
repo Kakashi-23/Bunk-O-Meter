@@ -9,4 +9,6 @@ object Constants {
     const val DeleteAll=4
     const val GET_SUBJECT=5
     var timeList= arrayListOf<SubjectInfo>()
+    val dayList= arrayListOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
+    )
 }
