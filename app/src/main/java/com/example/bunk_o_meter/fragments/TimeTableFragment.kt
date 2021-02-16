@@ -1,6 +1,8 @@
  package com.example.bunk_o_meter.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.util.Log
 import android.view.*
 import android.widget.Spinner
@@ -24,14 +26,19 @@ import com.google.android.material.textfield.TextInputEditText
 import com.michaldrabik.classicmaterialtimepicker.CmtpTimeDialogFragment
 import com.michaldrabik.classicmaterialtimepicker.model.CmtpTime24
 import com.michaldrabik.classicmaterialtimepicker.utilities.setOnTime24PickedListener
+import java.sql.Time
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
  class TimeTableFragment : Fragment(){
-     private  val TAG = "TimeTableFragment"
     lateinit var dayAndTimeRecycler: RecyclerView
     lateinit var subjectName:TextInputEditText
     lateinit var dayAndTimeAdapter: DayAndTimeAdapter
     lateinit var fab:FloatingActionButton
     private val dayList= arrayListOf<String>("1")
+     private var entityList = arrayListOf<TimeTableEntity>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,10 +70,23 @@ import com.michaldrabik.classicmaterialtimepicker.utilities.setOnTime24PickedLis
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+              /*  val viewList=getViewsFromRecycler(viewHolder.adapterPosition)
+                val day=viewList[0]
+                val startTime=viewList[1]
+                val endTime=viewList[2]
+                if (!day.text.isNullOrBlank() or !startTime.text.isNullOrBlank() or !endTime.text.isNullOrBlank() or !subjectName.text.isNullOrBlank()){
+                    val timeTableEntity=TimeTableEntity(day.text!!.toString(),subjectName.text.toString(),startTime.text!!.toString(),endTime.text!!.toString())
+                    val viewModel=ViewModelProviders.of(this@TimeTableFragment).get(ScheduleViewModel::class.java)
+                    if (viewModel.isExists(timeTableEntity)){
+                        if (viewModel.delete(viewModel.getEntity(timeTableEntity))){
+                            CommonUtilities.showToast(requireContext(),"Deleted")
+                        }
+                    }
+                }*/
                 dayList.removeAt(viewHolder.adapterPosition)
-                dayAndTimeAdapter.notifyDataSetChanged()
-            }
+                dayAndTimeAdapter.notifyItemRemoved(viewHolder.adapterPosition)
 
+            }
         }).attachToRecyclerView(dayAndTimeRecycler)
 
         return view
@@ -96,52 +116,69 @@ import com.michaldrabik.classicmaterialtimepicker.utilities.setOnTime24PickedLis
      }
 
      private fun saveData(subjectName:String) {
-         if (dayList.size!=0) {
+         val viewModel=ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
+         if (dayList.size != 0) {
              for (i in 0 until dayList.size) {
-                 val view = dayAndTimeRecycler.findViewHolderForAdapterPosition(i)!!.itemView
-                 val day:TextView= view.findViewById(R.id.dayShow)
-                 val startTime: TextInputEditText = view.findViewById(R.id.startTime)
-                 val endTime: TextInputEditText = view.findViewById(R.id.endTime)
-                 if (!day.text.isNullOrBlank() || !day.text.isNullOrEmpty()){
-                     if (!startTime.text.isNullOrEmpty() || !startTime.text.isNullOrBlank()){
-                         if (!endTime.text.isNullOrEmpty() || !endTime.text.isNullOrBlank()){
-                             pushDataToDB(day.text.toString(),
-                             startTime.text!!.toString(),
-                             endTime.text!!.toString(),
-                             subjectName,
-                             i
-                             )
-                         }else {
-                             endTime.error = "Enter Time"
-                         }
-                     }else{
-                         startTime.error="Enter Time"
-                     }
-                 }else{
+                 val viewList = getViewsFromRecycler(i)
+                 val day = viewList[0]
+                 val startTime = viewList[1]
+                 val endTime = viewList[2]
+                 if (day.text.isNullOrBlank() || day.text.isNullOrEmpty()) {
                      day.error = "Enter Day"
+                     entityList.clear()
+                     return
+                 } else if (startTime.text.isNullOrEmpty() || startTime.text.isNullOrBlank()) {
+                     startTime.error = "Enter Time"
+                     entityList.clear()
+                     return
+                 } else if (endTime.text.isNullOrEmpty() || endTime.text.isNullOrBlank()) {
+                     endTime.error = "Enter Time"
+                     entityList.clear()
+                     return
+                 } else if (!checkTime(startTime, endTime)) {
+                     dayAndTimeRecycler.findViewHolderForAdapterPosition(i)!!.itemView.
+                     findViewById<ConstraintLayout>(R.id.scheduleLayout).
+                     setBackgroundResource(error_layout)
+                     CommonUtilities.showToast(requireContext(),"Time entered is wrong")
+                     entityList.clear()
+                     return
+                 }else if (viewModel.isExists(TimeTableEntity(day.text.toString(), subjectName, startTime.text!!.toString(), endTime.text!!.toString()))){
+                     CommonUtilities.showToast(requireContext(),"Data already Exists")
+                     dayAndTimeRecycler.findViewHolderForAdapterPosition(i)!!.itemView.
+                     findViewById<ConstraintLayout>(R.id.scheduleLayout).
+                     setBackgroundResource(error_layout)
+                     entityList.clear()
+                     return
+                 }
+                 entityList.add( TimeTableEntity(day.text.toString(),
+                     subjectName,
+                     startTime.text!!.toString(),
+                     endTime.text!!.toString()))
+
+                 if (i == dayList.size-1){
+                 pushDataToDB(entityList)
                  }
 
              }
          }else {
-             CommonUtilities.showToast(requireActivity(),"Enter Schedule")
+             CommonUtilities.showToast(requireContext(),"Enter Schedule")
          }
-
+     }
+     private fun checkTime(startTime: TextInputEditText, endTime: TextInputEditText): Boolean {
+         val st = startTime.text.toString().split(":")[0].toInt()
+         val et=endTime.text.toString().split(":")[0].toInt()
+         if (st >= et){
+             return false
+         }
+         return true
      }
 
-     private fun pushDataToDB(day:String,startTime:String,endTime:String,subjectName: String,i:Int) {
-         val timeTableEntity=TimeTableEntity(day,subjectName,startTime,endTime)
+     private fun pushDataToDB(entityList:ArrayList<TimeTableEntity>) {
          val viewModel=ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
-         if (viewModel.isExists(timeTableEntity)){
-             CommonUtilities.showToast(requireContext(),"Data already Exists")
-             dayAndTimeRecycler.findViewHolderForAdapterPosition(i)!!.itemView.
-                 findViewById<ConstraintLayout>(R.id.scheduleLayout).
-                 setBackgroundResource(error_layout)
-             return
+         for (entity in entityList){
+             viewModel.insert(entity)
          }
-         val status=viewModel.insert(timeTableEntity)
-         if (status){
-             CommonUtilities.showToast(requireContext(),"Saved")
-         }
+         CommonUtilities.showToast(requireContext(),"Saved")
      }
 
 
@@ -149,5 +186,16 @@ import com.michaldrabik.classicmaterialtimepicker.utilities.setOnTime24PickedLis
      override fun onDestroy() {
          dayList.clear()
          super.onDestroy()
+     }
+     private fun getViewsFromRecycler(position:Int): ArrayList<TextInputEditText> {
+         val view = dayAndTimeRecycler.findViewHolderForAdapterPosition(position)!!.itemView
+         val day:TextInputEditText= view.findViewById(R.id.dayShow)
+         val startTime: TextInputEditText = view.findViewById(R.id.startTime)
+         val endTime: TextInputEditText = view.findViewById(R.id.endTime)
+         var viewList= arrayListOf<TextInputEditText>()
+         viewList.add(day)
+         viewList.add(startTime)
+         viewList.add(endTime)
+         return viewList
      }
  }

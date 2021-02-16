@@ -7,6 +7,7 @@ import com.example.bunk_o_meter.database.TimeTableDAO
 import com.example.bunk_o_meter.database.TimeTableDatabase
 import com.example.bunk_o_meter.database.TimeTableEntity
 import com.example.bunk_o_meter.utils.Constants
+import javax.security.auth.Subject
 
 class TimeTableRepository(application: Application) {
     val database=TimeTableDatabase.getDatabase(application)
@@ -30,20 +31,24 @@ class TimeTableRepository(application: Application) {
     fun getAllInfo(): LiveData<List<TimeTableEntity>> {
         return scheduleDao.getAllInfo()
     }
-    fun getSubject(day: String,time: String):TimeTableEntity?{
-        val task = GetSubjectAsyncTask(scheduleDao,day,time).execute()
+    fun getSubject(day: String,time: String,subject: String):TimeTableEntity?{
+        val task = GetSubjectAsyncTask(scheduleDao,day,time,subject,Constants.GET_SUBJECT).execute()
         return task.get()
 
     }
     fun isExists(entity: TimeTableEntity):Boolean{
         var exists=false
-        val scheduleEntity=getSubject(entity.day,entity.StartTime)
+        val scheduleEntity=getSubject(entity.day,entity.StartTime,entity.Subject)
         if (scheduleEntity!=null){
             if(scheduleEntity.Subject == entity.Subject){
                 exists=true
             }
         }
         return exists
+    }
+    fun getEntity(entity: TimeTableEntity):TimeTableEntity{
+        val task = GetSubjectAsyncTask(scheduleDao,entity.day,entity.StartTime,entity.Subject,Constants.GET_Entity).execute()
+        return task.get()
     }
 
     /*private fun checkEntity(entity: TimeTableEntity, scheduleEntity: TimeTableEntity): Boolean {
@@ -60,24 +65,24 @@ class TimeTableRepository(application: Application) {
 
     // Async task
     private class ScheduleAsyncTask(dao: TimeTableDAO,resultCode:Int): AsyncTask<TimeTableEntity,Void,Boolean>() {
-        val scheduledao=dao
+        val scheduleDao=dao
         val code=resultCode
         override fun doInBackground(vararg entity: TimeTableEntity?):Boolean {
             when(code){
                 Constants.Insert->{
-                    scheduledao.insertTimeTable(entity[0]!!)
+                    scheduleDao.insertTimeTable(entity[0]!!)
                     return true
                 }
                 Constants.Delete->{
-                    scheduledao.deleteTimeTable(entity[0]!!)
+                    scheduleDao.deleteTimeTable(entity[0]!!)
                     return true
                 }
                 Constants.Update->{
-                    scheduledao.update(entity[0]!!)
+                    scheduleDao.update(entity[0]!!)
                     return true
                 }
                 Constants.DeleteAll->{
-                    scheduledao.deleteAll()
+                    scheduleDao.deleteAll()
                     return true
                 }
             }
@@ -85,10 +90,18 @@ class TimeTableRepository(application: Application) {
         }
 
     }
-    private class GetSubjectAsyncTask(val dao: TimeTableDAO, val day: String,val startTime:String):AsyncTask<Void,Void,TimeTableEntity>(){
-        override fun doInBackground(vararg p0: Void?): TimeTableEntity {
-           return dao.getSubject(day,startTime)
-        }
+    private class GetSubjectAsyncTask(val dao: TimeTableDAO, val day: String,val startTime:String,val subject: String,val code:Int):AsyncTask<Void,Void,TimeTableEntity>() {
+        override fun doInBackground(vararg p0: Void?): TimeTableEntity? {
+            when (code) {
+                Constants.GET_Entity -> {
+                    return dao.getEntity(day, startTime, subject)
+                }
+                Constants.GET_SUBJECT -> {
+                    return dao.getSubject(day, startTime)
+                }
 
+            }
+            return null
+        }
     }
 }

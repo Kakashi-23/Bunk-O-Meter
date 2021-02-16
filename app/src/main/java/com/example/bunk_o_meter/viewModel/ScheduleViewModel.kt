@@ -22,13 +22,16 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
     public fun deleteAll(entity:TimeTableEntity): Boolean {
         return  scheduleRepository.deleteAll(entity)
     }
-    public fun getSubject(day: String,time: String): TimeTableEntity? {
-       return scheduleRepository.getSubject(day,time)
+    public fun getSubject(entity: TimeTableEntity): TimeTableEntity? {
+       return scheduleRepository.getSubject(entity.day,entity.StartTime,entity.Subject)
     }
     fun getAllSchedule(): LiveData<List<TimeTableEntity>> {
         return fullSchedule
     }
     fun isExists(entity: TimeTableEntity):Boolean{
         return scheduleRepository.isExists(entity)
+    }
+    fun getEntity(entity: TimeTableEntity):TimeTableEntity{
+        return scheduleRepository.getEntity(entity)
     }
 }

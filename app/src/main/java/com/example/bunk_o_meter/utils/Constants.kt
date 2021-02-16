@@ -3,6 +3,7 @@ package com.example.bunk_o_meter.utils
 import com.example.bunk_o_meter.model.SubjectInfo
 
 object Constants {
+    const val GET_Entity=6
     const val Insert=1
     const val Update=2
     const val Delete=3

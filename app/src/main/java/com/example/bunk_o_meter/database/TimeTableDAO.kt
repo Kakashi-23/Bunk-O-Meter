@@ -2,6 +2,7 @@ package com.example.bunk_o_meter.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import javax.security.auth.Subject
 
 @Dao
 interface TimeTableDAO {
@@ -22,5 +23,8 @@ interface TimeTableDAO {
 
     @Query("SELECT * FROM Time_Table")
     fun getAllInfo():LiveData<List<TimeTableEntity>>
+
+    @Query("SELECT * FROM Time_Table WHERE Day = :day and Start_Time=:startTime and Subject =:subject" )
+    fun getEntity(day:String,startTime:String,subject: String):TimeTableEntity
 
 }
