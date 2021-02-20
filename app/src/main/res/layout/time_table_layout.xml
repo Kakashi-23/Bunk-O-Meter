@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<com.google.android.material.card.MaterialCardView xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scheduleLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
-    android:background="@drawable/layout_borders">
-
+    app:strokeColor="@color/white"
+    app:strokeWidth="2dp"
+    app:cardCornerRadius="5dp"
+    >
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,7 +26,13 @@
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_weight="1.2"
-    android:layout_gravity="center_vertical">
+    android:layout_gravity="center_vertical"
+    app:boxStrokeColor="@null"
+    app:boxCornerRadiusBottomEnd="2dp"
+    app:boxCornerRadiusBottomStart="2dp"
+    app:boxCornerRadiusTopEnd="2dp"
+    app:boxCornerRadiusTopStart="2dp"
+    >
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/dayShow"
         android:layout_width="match_parent"
@@ -40,13 +51,21 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.8"
             android:orientation="vertical"
-            android:padding="5dp">
+            android:weightSum="2"
+            android:padding="5dp"
+            >
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/startTimeLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                tools:ignore="NestedWeights"
+                app:boxStrokeColor="@null"
+                app:boxCornerRadiusBottomEnd="2dp"
+                app:boxCornerRadiusBottomStart="2dp"
+                app:boxCornerRadiusTopEnd="2dp"
+                app:boxCornerRadiusTopStart="2dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/startTime"
@@ -63,8 +82,13 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/endTimeLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:boxStrokeColor="@null"
+                app:boxCornerRadiusBottomEnd="2dp"
+                app:boxCornerRadiusBottomStart="2dp"
+                app:boxCornerRadiusTopEnd="2dp"
+                app:boxCornerRadiusTopStart="2dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/endTime"
@@ -80,3 +104,4 @@
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

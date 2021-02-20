@@ -13,9 +13,9 @@
         app:layout_constraintEnd_toEndOf= "parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/whiteborder"
         android:layout_margin="5dp"
         android:padding="5dp"
+        app:boxStrokeColor="@null"
        >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/subjectNameAdd"
@@ -24,7 +24,8 @@
             android:textSize="15sp"
             android:hint="Enter Subject Name"
             android:inputType="text"
-            android:layout_marginStart="10dp"
+            android:gravity="start"
+
             />
     </com.google.android.material.textfield.TextInputLayout>
 

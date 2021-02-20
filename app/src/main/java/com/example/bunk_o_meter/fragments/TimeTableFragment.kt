@@ -1,12 +1,14 @@
  package com.example.bunk_o_meter.fragments
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.os.Bundle
 import android.text.format.DateUtils
 import android.util.Log
 import android.view.*
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -21,6 +23,7 @@ import com.example.bunk_o_meter.adapters.DayAndTimeAdapter
 import com.example.bunk_o_meter.database.TimeTableEntity
 import com.example.bunk_o_meter.utils.CommonUtilities
 import com.example.bunk_o_meter.viewModel.ScheduleViewModel
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.michaldrabik.classicmaterialtimepicker.CmtpTimeDialogFragment
@@ -37,8 +40,9 @@ import java.time.format.DateTimeFormatter
     lateinit var subjectName:TextInputEditText
     lateinit var dayAndTimeAdapter: DayAndTimeAdapter
     lateinit var fab:FloatingActionButton
-    private val dayList= arrayListOf<String>("1")
+    private val dayList= arrayListOf<String>("")
      private var entityList = arrayListOf<TimeTableEntity>()
+     lateinit var viewModel:ScheduleViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +60,7 @@ import java.time.format.DateTimeFormatter
             dayList.add("")
             dayAndTimeAdapter.notifyDataSetChanged()
         }
-
+        viewModel=ViewModelProviders.of(this@TimeTableFragment).get(ScheduleViewModel::class.java)
         displaySchedule()
 
         // swipe to delete functionality
@@ -70,23 +74,22 @@ import java.time.format.DateTimeFormatter
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-              /*  val viewList=getViewsFromRecycler(viewHolder.adapterPosition)
+                val viewList=getViewsFromRecycler(viewHolder.adapterPosition)
                 val day=viewList[0]
                 val startTime=viewList[1]
                 val endTime=viewList[2]
                 if (!day.text.isNullOrBlank() or !startTime.text.isNullOrBlank() or !endTime.text.isNullOrBlank() or !subjectName.text.isNullOrBlank()){
                     val timeTableEntity=TimeTableEntity(day.text!!.toString(),subjectName.text.toString(),startTime.text!!.toString(),endTime.text!!.toString())
-                    val viewModel=ViewModelProviders.of(this@TimeTableFragment).get(ScheduleViewModel::class.java)
                     if (viewModel.isExists(timeTableEntity)){
-                        if (viewModel.delete(viewModel.getEntity(timeTableEntity))){
-                            CommonUtilities.showToast(requireContext(),"Deleted")
-                        }
+                        showDialog(timeTableEntity,viewHolder.adapterPosition)
                     }
-                }*/
-                dayList.removeAt(viewHolder.adapterPosition)
-                dayAndTimeAdapter.notifyItemRemoved(viewHolder.adapterPosition)
-
+                }else{
+                    dayList.removeAt(viewHolder.adapterPosition)
+                    dayAndTimeAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+                   // TODO("Delete the data cached")
+                }
             }
+
         }).attachToRecyclerView(dayAndTimeRecycler)
 
         return view
@@ -145,7 +148,7 @@ import java.time.format.DateTimeFormatter
                  }else if (viewModel.isExists(TimeTableEntity(day.text.toString(), subjectName, startTime.text!!.toString(), endTime.text!!.toString()))){
                      CommonUtilities.showToast(requireContext(),"Data already Exists")
                      dayAndTimeRecycler.findViewHolderForAdapterPosition(i)!!.itemView.
-                     findViewById<ConstraintLayout>(R.id.scheduleLayout).
+                     findViewById<MaterialCardView>(R.id.scheduleLayout).
                      setBackgroundResource(error_layout)
                      entityList.clear()
                      return
@@ -197,5 +200,27 @@ import java.time.format.DateTimeFormatter
          viewList.add(startTime)
          viewList.add(endTime)
          return viewList
+     }
+
+     private fun showDialog(timeTableEntity: TimeTableEntity,position: Int){
+         val dialog = AlertDialog.Builder(requireActivity())
+         dialog.setTitle("Delete")
+         dialog.setMessage("Data exist in database!! Do you want to delete the data?")
+         dialog.setPositiveButton("Delete",DialogInterface.OnClickListener { dialogInterface, _ ->
+             if (viewModel.delete(viewModel.getEntity(timeTableEntity))){
+                 CommonUtilities.showToast(requireContext(),"Deleted")
+                 dayList.removeAt(position)
+                 dayAndTimeAdapter.notifyItemRemoved(position)
+                 dialogInterface.dismiss()
+             }else{
+                 CommonUtilities.showToast(requireContext(),"Something went wrong!! Try again later")
+             }
+         })
+         dialog.setNegativeButton("Cancel",DialogInterface.OnClickListener{dialogInterface ,_ ->
+             dayList.removeAt(position)
+             dayAndTimeAdapter.notifyItemRemoved(position)
+             dialogInterface.dismiss()
+         })
+         dialog.show()
      }
  }

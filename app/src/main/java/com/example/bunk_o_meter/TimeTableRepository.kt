@@ -51,6 +51,9 @@ class TimeTableRepository(application: Application) {
         return task.get()
     }
 
+    fun getAllSubject():LiveData<List<String>>{
+     return scheduleDao.getAllSubject()
+    }
     /*private fun checkEntity(entity: TimeTableEntity, scheduleEntity: TimeTableEntity): Boolean {
         var exists=false
         if (entity.Subject==scheduleEntity.Subject){
@@ -85,6 +88,7 @@ class TimeTableRepository(application: Application) {
                     scheduleDao.deleteAll()
                     return true
                 }
+
             }
             return false
         }

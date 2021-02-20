@@ -27,4 +27,6 @@ interface TimeTableDAO {
     @Query("SELECT * FROM Time_Table WHERE Day = :day and Start_Time=:startTime and Subject =:subject" )
     fun getEntity(day:String,startTime:String,subject: String):TimeTableEntity
 
+    @Query("SELECT Subject FROM Time_Table")
+    fun getAllSubject():LiveData<List<String>>
 }

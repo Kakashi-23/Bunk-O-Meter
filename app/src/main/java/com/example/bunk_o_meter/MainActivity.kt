@@ -30,8 +30,8 @@ class MainActivity : AppCompatActivity() {
         navigationView=findViewById(R.id.mainNavigationView)
         frameLayout=findViewById(R.id.mainFrameLayout)
         drawerLayout=findViewById(R.id.mainDrawerLayout)
-        toolBar("Home")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setHome()
         // navigation bar setup
         val actionBarDrawerToggle=ActionBarDrawerToggle(this,drawerLayout,R.string.open_Drawers,R.string.close_Drawers)
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
@@ -51,6 +51,11 @@ class MainActivity : AppCompatActivity() {
                     val fragment=HomeFragment()
                     transaction.replace(R.id.mainFrameLayout,fragment)
                     transaction.commit()
+                    if (toolbar.visibility == View.GONE){
+                        toolbar.visibility=View.VISIBLE
+                        toolBar("Home")
+                    }
+                    toolBar("Home")
                     drawerLayout.closeDrawers()
                 }
                 R.id.menuLHL->{
@@ -101,5 +106,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+    fun setHome(){
+        val manager=supportFragmentManager
+        val transaction=manager.beginTransaction()
+        val fragment=HomeFragment()
+        transaction.replace(R.id.mainFrameLayout,fragment)
+        transaction.commit()
+        if (toolbar.visibility == View.GONE){
+            toolbar.visibility=View.VISIBLE
+            toolBar("Home")
+        }
+        toolBar("Home")
     }
 }

@@ -34,4 +34,7 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
     fun getEntity(entity: TimeTableEntity):TimeTableEntity{
         return scheduleRepository.getEntity(entity)
     }
+    fun getAllSubject():LiveData<List<String>>{
+        return scheduleRepository.getAllSubject()
+    }
 }
