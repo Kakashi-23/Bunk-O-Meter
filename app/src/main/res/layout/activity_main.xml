@@ -12,11 +12,11 @@
         android:layout_height="match_parent"
         android:id="@+id/mainCoordinatorLayout">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/mainToolBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
+                android:background="@color/blueEyes"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark"
                 tools:layout_editor_absoluteY="-17dp"

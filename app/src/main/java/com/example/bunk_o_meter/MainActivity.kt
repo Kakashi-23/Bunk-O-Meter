@@ -13,13 +13,14 @@ import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.bunk_o_meter.fragments.HomeFragment
 import com.example.bunk_o_meter.fragments.TimeTableFragment
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     lateinit var drawerLayout: DrawerLayout
     lateinit var navigationView: NavigationView
-    lateinit var toolbar: androidx.appcompat.widget.Toolbar
+    lateinit var toolbar:MaterialToolbar
     lateinit var frameLayout: FrameLayout
     var previousMenuItem:MenuItem?=null
 
@@ -30,7 +31,6 @@ class MainActivity : AppCompatActivity() {
         navigationView=findViewById(R.id.mainNavigationView)
         frameLayout=findViewById(R.id.mainFrameLayout)
         drawerLayout=findViewById(R.id.mainDrawerLayout)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setHome()
         // navigation bar setup
         val actionBarDrawerToggle=ActionBarDrawerToggle(this,drawerLayout,R.string.open_Drawers,R.string.close_Drawers)
@@ -51,10 +51,6 @@ class MainActivity : AppCompatActivity() {
                     val fragment=HomeFragment()
                     transaction.replace(R.id.mainFrameLayout,fragment)
                     transaction.commit()
-                    if (toolbar.visibility == View.GONE){
-                        toolbar.visibility=View.VISIBLE
-                        toolBar("Home")
-                    }
                     toolBar("Home")
                     drawerLayout.closeDrawers()
                 }
@@ -64,7 +60,8 @@ class MainActivity : AppCompatActivity() {
                     val fragment=MapsFragment()
                     transaction.replace(R.id.mainFrameLayout,fragment)
                     transaction.commit()
-                    toolbar.visibility=View.GONE
+             //       toolbar.visibility=View.GONE
+                    toolBar("Add Location")
                     drawerLayout.closeDrawers()
                 }
                 R.id.menuTimeTable->{
@@ -73,10 +70,6 @@ class MainActivity : AppCompatActivity() {
                     val fragment=TimeTableFragment()
                     transaction.replace(R.id.mainFrameLayout,fragment)
                     transaction.commit()
-                    if (toolbar.visibility == View.GONE){
-                        toolbar.visibility=View.VISIBLE
-                        toolBar("Add TimeTable")
-                    }
                     toolBar("Add TimeTable")
                     drawerLayout.closeDrawers()
 
@@ -97,6 +90,7 @@ class MainActivity : AppCompatActivity() {
     private fun toolBar(title:String){
         setSupportActionBar(toolbar)
         supportActionBar?.title=title
+    supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
     }
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -107,16 +101,13 @@ class MainActivity : AppCompatActivity() {
 
         return super.onOptionsItemSelected(item)
     }
-    fun setHome(){
+    private fun setHome(){
         val manager=supportFragmentManager
         val transaction=manager.beginTransaction()
         val fragment=HomeFragment()
         transaction.replace(R.id.mainFrameLayout,fragment)
         transaction.commit()
-        if (toolbar.visibility == View.GONE){
-            toolbar.visibility=View.VISIBLE
-            toolBar("Home")
-        }
         toolBar("Home")
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 }
