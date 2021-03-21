@@ -1,21 +1,16 @@
 package com.example.bunk_o_meter.fragments
 
-import android.os.AsyncTask
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.Button
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bunk_o_meter.R
 import com.example.bunk_o_meter.adapters.SubjectHomeAdapter
-import com.example.bunk_o_meter.database.TimeTableDatabase
-import com.example.bunk_o_meter.database.TimeTableEntity
 import com.example.bunk_o_meter.viewModel.ScheduleViewModel
 
 

@@ -3,11 +3,11 @@ package com.example.bunk_o_meter.viewModel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.example.bunk_o_meter.TimeTableRepository
-import com.example.bunk_o_meter.database.TimeTableEntity
+import com.example.bunk_o_meter.repositories.TimeTableRepository
+import com.example.bunk_o_meter.TimeTableDatabase.TimeTableEntity
 
 class ScheduleViewModel(application: Application) : AndroidViewModel(application) {
-    private var scheduleRepository=TimeTableRepository(application)
+    private var scheduleRepository= TimeTableRepository(application)
     private var fullSchedule=scheduleRepository.getAllInfo()
 
     public fun insert(entity:TimeTableEntity): Boolean {

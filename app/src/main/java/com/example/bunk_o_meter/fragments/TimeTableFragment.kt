@@ -1,39 +1,24 @@
  package com.example.bunk_o_meter.fragments
 
-import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.os.Bundle
-import android.text.format.DateUtils
-import android.util.Log
 import android.view.*
-import android.widget.Spinner
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bunk_o_meter.R
 import com.example.bunk_o_meter.R.drawable.error_layout
-import com.example.bunk_o_meter.TimeTableRepository
 import com.example.bunk_o_meter.adapters.DayAndTimeAdapter
-import com.example.bunk_o_meter.database.TimeTableEntity
+import com.example.bunk_o_meter.TimeTableDatabase.TimeTableEntity
 import com.example.bunk_o_meter.utils.CommonUtilities
 import com.example.bunk_o_meter.viewModel.ScheduleViewModel
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
-import com.michaldrabik.classicmaterialtimepicker.CmtpTimeDialogFragment
-import com.michaldrabik.classicmaterialtimepicker.model.CmtpTime24
-import com.michaldrabik.classicmaterialtimepicker.utilities.setOnTime24PickedListener
-import java.sql.Time
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
  class TimeTableFragment : Fragment(){
     lateinit var dayAndTimeRecycler: RecyclerView

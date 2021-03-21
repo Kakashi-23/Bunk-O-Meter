@@ -1,14 +1,12 @@
 package com.example.bunk_o_meter.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bunk_o_meter.R
-import com.example.bunk_o_meter.database.TimeTableEntity
+import com.example.bunk_o_meter.TimeTableDatabase.TimeTableEntity
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.android.synthetic.main.fragment_add_time_table.view.*
 
 class ScheduleAdapter(val list:ArrayList<TimeTableEntity>): RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

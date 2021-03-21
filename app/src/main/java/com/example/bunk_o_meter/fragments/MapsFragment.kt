@@ -25,7 +25,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class MapsFragment : Fragment(),GoogleMap.OnMarkerDragListener {
-    private  val TAG = "MapsFragment"
     private var markerPresent=false
     private lateinit var map:GoogleMap
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient

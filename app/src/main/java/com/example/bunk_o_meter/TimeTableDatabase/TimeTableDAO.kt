@@ -1,8 +1,7 @@
-package com.example.bunk_o_meter.database
+package com.example.bunk_o_meter.TimeTableDatabase
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import javax.security.auth.Subject
 
 @Dao
 interface TimeTableDAO {
