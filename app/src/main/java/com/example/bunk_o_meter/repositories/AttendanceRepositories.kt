@@ -25,7 +25,7 @@ class AttendanceRepositories(application: Application) {
         return task.get()!!
     }
 
-    fun getAttendanceInfo():LiveData<ArrayList<AttendanceEntity>>{
+    fun getAttendanceInfo():LiveData<List<AttendanceEntity>>{
         return attendanceDao.getAttendance()
     }
 

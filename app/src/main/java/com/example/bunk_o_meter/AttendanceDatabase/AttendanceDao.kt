@@ -12,6 +12,6 @@ interface AttendanceDao {
     fun deleteAttendance(entity :AttendanceEntity)
 
     @Query("SELECT * FROM Attendance")
-    fun getAttendance():LiveData<ArrayList<AttendanceEntity>>
+    fun getAttendance():LiveData<List<AttendanceEntity>>
 
 }

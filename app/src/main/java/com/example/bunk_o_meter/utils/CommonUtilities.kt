@@ -1,9 +1,11 @@
 package com.example.bunk_o_meter.utils
 
+import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.google.android.gms.maps.model.LatLng
 import java.lang.ref.WeakReference
 
 object CommonUtilities {
@@ -27,4 +29,20 @@ object CommonUtilities {
         return false
     }
 
+    fun checkUser(activity:Activity):Boolean{
+        val sharedPreferences = activity.getSharedPreferences("User",Context.MODE_PRIVATE)
+        return sharedPreferences.getBoolean("FirstTime",false)
+    }
+
+    fun setUser(activity: Activity){
+        val sharedPref = activity.getSharedPreferences("User",Context.MODE_PRIVATE).edit()
+        sharedPref.putBoolean("FirstTime",false)
+        sharedPref.apply()
+    }
+
+    fun setUserLocation(activity: Activity,location:LatLng){
+        val sharedPref = activity.getSharedPreferences("User",Context.MODE_PRIVATE).edit()
+        sharedPref.putString("Location",location.toString())
+        sharedPref.apply()
+    }
 }

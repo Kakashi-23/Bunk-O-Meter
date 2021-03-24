@@ -9,7 +9,7 @@ import com.example.bunk_o_meter.repositories.AttendanceRepositories
 class AttendanceViewModel(application: Application):AndroidViewModel(application) {
     private var attendanceRepo=AttendanceRepositories(application)
 
-    fun getAllInfo():LiveData<ArrayList<AttendanceEntity>>{
+    fun getAllInfo():LiveData<List<AttendanceEntity>>{
         return attendanceRepo.getAttendanceInfo()
     }
 

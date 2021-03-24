@@ -14,7 +14,7 @@ data class AttendanceEntity(
     @ColumnInfo(name = "Total Classes")
     var total_classes:String,
     @ColumnInfo(name = "Location")
-    var location:LatLng
+    var location:String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id:Int = 0
